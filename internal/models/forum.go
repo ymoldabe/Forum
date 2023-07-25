@@ -38,14 +38,15 @@ func (m *ForumModel) Insert(title string, content string, expires int) (int, err
 
 func (m *ForumModel) Get(id int) (*Forum, error) {
 
+	s := &Forum{}
+
 	stmt := `SELECT id, title, content, created, expires FROM forum
 	WHERE expires > UTC_TIMESTAMP() AND id = ?`
 
 	row := m.DB.QueryRow(stmt, id)
-
-	s := &Forum{}
-
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+	// Можно написать так
+	// err := m.DB.QueryRow("SELECT ...", id).Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord
@@ -57,5 +58,33 @@ func (m *ForumModel) Get(id int) (*Forum, error) {
 }
 
 func (m *ForumModel) Latest() ([]*Forum, error) {
-	return nil, nil
+
+	stmt := `SELECT id, title, content, created, expires FROM forum
+	WHERE expires > UTC_TIMESTAMP() ORDER BY id DESC LIMIT 10`
+
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	forums := []*Forum{}
+
+	for rows.Next() {
+
+		s := &Forum{}
+
+		err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+		if err != nil {
+			return nil, err
+		}
+
+		forums = append(forums, s)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return forums, nil
 }
