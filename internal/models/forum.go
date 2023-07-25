@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"errors"
 	"time"
 )
 
@@ -36,7 +37,23 @@ func (m *ForumModel) Insert(title string, content string, expires int) (int, err
 }
 
 func (m *ForumModel) Get(id int) (*Forum, error) {
-	return nil, nil
+
+	stmt := `SELECT id, title, content, created, expires FROM forum
+	WHERE expires > UTC_TIMESTAMP() AND id = ?`
+
+	row := m.DB.QueryRow(stmt, id)
+
+	s := &Forum{}
+
+	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNoRecord
+		} else {
+			return nil, err
+		}
+	}
+	return s, nil
 }
 
 func (m *ForumModel) Latest() ([]*Forum, error) {
