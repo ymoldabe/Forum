@@ -21,9 +21,10 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.render(w, http.StatusOK, "home.tmpl", &templateData{
-		Forums: forums,
-	})
+	data := app.newTemplateDate(r)
+	data.Forums = forums
+
+	app.render(w, http.StatusOK, "home.tmpl", data)
 }
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
@@ -41,9 +42,9 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	app.render(w, http.StatusOK, "view.tmpl", &templateData{
-		Forum: forum,
-	})
+	data := app.newTemplateDate(r)
+	data.Forum = forum
+	app.render(w, http.StatusOK, "view.tmpl", data)
 
 }
 func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
