@@ -21,7 +21,8 @@ type ForumModel struct {
 func (m *ForumModel) Insert(title string, content string, expires int) (int, error) {
 
 	stmt := `INSERT INTO forum (title, content, created, expires)
-	VALUES(?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+	VALUES (?, ?, strftime('%s', 'now'), strftime('%s', 'now', '+' || ? || ' day'));
+	`
 
 	result, err := m.DB.Exec(stmt, title, content, expires)
 	if err != nil {
@@ -40,8 +41,10 @@ func (m *ForumModel) Get(id int) (*Forum, error) {
 
 	s := &Forum{}
 
-	stmt := `SELECT id, title, content, created, expires FROM forum
-	WHERE expires > UTC_TIMESTAMP() AND id = ?`
+	stmt := `SELECT id, title, content, created, expires
+	FROM forum
+	WHERE expires > strftime('%s', 'now')
+	AND id = ?; `
 
 	row := m.DB.QueryRow(stmt, id)
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
@@ -59,8 +62,12 @@ func (m *ForumModel) Get(id int) (*Forum, error) {
 
 func (m *ForumModel) Latest() ([]*Forum, error) {
 
-	stmt := `SELECT id, title, content, created, expires FROM forum
-	WHERE expires > UTC_TIMESTAMP() ORDER BY id DESC LIMIT 10`
+	stmt := `SELECT id, title, content, created, expires
+	FROM forum
+	WHERE expires > strftime('%s', 'now')
+	ORDER BY id DESC
+	LIMIT 10;
+	`
 
 	rows, err := m.DB.Query(stmt)
 	if err != nil {

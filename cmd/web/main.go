@@ -10,7 +10,7 @@ import (
 	"text/template"
 
 	"alexedwards.net/snippetbox/internal/models"
-	_ "github.com/go-sql-driver/mysql" // New import
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type application struct {
@@ -20,15 +20,17 @@ type application struct {
 	templateCache map[string]*template.Template
 }
 
+var dsn string = "./DB/forum.db"
+
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:090909@/forum?parseTime=true", "MySQL data source name")
+	// dsn := flag.String("dsn", "web:090909@/forum?parseTime=true", "MySQL data source name")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	db, err := openDb(*dsn)
+	db, err := openDb(dsn)
 	if err != nil {
 		errorLog.Fatal(err)
 	}
@@ -58,7 +60,7 @@ func main() {
 }
 
 func openDb(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
+	db, err := sql.Open("sqlite3", dsn)
 	if err != nil {
 		return nil, err
 	}
