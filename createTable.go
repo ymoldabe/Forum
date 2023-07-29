@@ -20,11 +20,14 @@ package main
 // 	}
 // 	defer db.Close()
 
-// 	stmt, err := db.Prepare(`CREATE TABLE sessions (
-//     token CHAR(43) PRIMARY KEY,
-//     data BLOB NOT NULL,
-//     expiry TIMESTAMP(6) NOT NULL
-// );`)
+// 	stmt, err := db.Prepare(`CREATE TABLE users (
+// 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+// 		name VARCHAR(255) NOT NULL,
+// 		email VARCHAR(255) NOT NULL,
+// 		hashed_password CHAR(60) NOT NULL,
+// 		created DATETIME NOT NULL
+// 	);
+// 	`)
 // 	if err != nil {
 // 		log.Fatal(err)
 // 	}
