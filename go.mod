@@ -7,4 +7,5 @@ require (
 	github.com/alexedwards/scs/v2 v2.5.1 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.17 // indirect
+	golang.org/x/crypto v0.11.0 // indirect
 )
