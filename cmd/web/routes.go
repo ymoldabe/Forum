@@ -8,7 +8,7 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	dynamic := aliceNew(app.sessionManager.LoadAndSave)
+	dynamic := aliceNew(app.sessionManager.LoadAndSave, app.authenticate)
 
 	// mux.HandleFunc("/", app.home)
 	mux.Handle("/", dynamic.ThenFunc(app.home))
