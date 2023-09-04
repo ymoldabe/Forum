@@ -5,23 +5,28 @@
 <meta charset='utf-8'>
 <title>{{template "title" .}} - Forum</title>
 <link rel='stylesheet' href='/static/css/main.css'>
-<link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
+<link rel='shortcut icon' href='/static/img/favico.ico' type='image/x-icon'>
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <header>
-<h1><a href='/'>Forum</a></h1>
+<h1>
+<img src="/static/img/hertaa1.gif"/>
+<a href='/' class="forum">Forum</a>
+<img src="/static/img/hertaa1.gif"/>
+
+</h1>
+
 </header>
 {{template "nav" .}}
 <main>
-{{with .Flash}}
-<div class='flash'>{{.}}</div>
-{{end}}
+
 {{template "main" .}}
 </main>
 <footer>
 <!-- Update the footer to include the current year -->
-Powered by <a href='https://golang.org/'>Go</a> in {{.CurrentYear}}
+<a href='https://one-piece.com/index.html'>WATCH ONE PIECE</a>
 </footer>
 <script src="/static/js/main.js" type="text/javascript"></script>
 </body>

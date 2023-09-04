@@ -1,31 +1,52 @@
 {{define "title"}}Create a New Forum{{end}}
 {{define "main"}}
-<form action='/snippet/creating' method='POST'>
-<div>
-<label>Title:</label>
-{{with .Form.FieldErrors.title}}
-<label class='error'>{{.}}</label>
-{{end}}
-<input type='text' name='title'>
+<div class="container">
+    <h1>>Create a New Forum<</h1>
+    <form action='/post/create' method='POST'>
+        <div class="form-group">
+            <label for="title">Title:</label>
+            {{with .Form.FieldErrors.title}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <input type='text' class="form-control" id="title" name='title'>
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            {{with .Form.FieldErrors.content}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <textarea class="form-control" id="content" name='content'></textarea>
+        </div>
+        <div class="form-group">
+            <label>Tags:</label>
+            {{with .Form.FieldErrors.tags}}
+                <label class='error'>{{.}}</label>
+            {{end}}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type='checkbox' name='tags' value='1' id="tag1">
+                <label class="form-check-label" for="tag1">AskReddit</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type='checkbox' name='tags' value='2' id="tag2">
+                <label class="form-check-label" for="tag2">Funny</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type='checkbox' name='tags' value='3' id="tag3">
+                <label class="form-check-label" for="tag3">News</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type='checkbox' name='tags' value='4' id="tag4">
+                <label class="form-check-label" for="tag4">Gaming</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type='checkbox' name='tags' value='5' id="tag5">
+                <label class="form-check-label" for="tag5">Other</label>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Publish snippet</button>
+        </div>
+    </form>
 </div>
-<div>
-<label>Content:</label>
-{{with .Form.FieldErrors.content}}
-<label class='error'>{{.}}</label>
-{{end}}
-<textarea name='content'></textarea>
-</div>
-<div>
-<label>Delete in:</label>
-{{with .Form.FieldErrors.expires}}
-<label class='error'>{{.}}</label>
-{{end}}
-<input type='radio' name='expires' value='365' {{if (eq .Form.Expires 365)}}checked{{end}}> One Year
-<input type='radio' name='expires' value='7' {{if (eq .Form.Expires 7)}}checked{{end}}> One Week
-<input type='radio' name='expires' value='1' {{if (eq .Form.Expires 1)}}checked{{end}}> One Day
-</div>
-<div>
-<input type='submit' value='Publish snippet'>
-</div>
-</form>
+
 {{end}}

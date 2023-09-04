@@ -7,35 +7,62 @@
 }
 
 html, body {
+    
     height: 100%;
 }
 
 body {
+    background-image: url("/static/img/Back.jpg");
+    background-repeat: repeat;
+    
     line-height: 1.5;
-    background-color: #F1F3F6;
     color: #34495E;
     overflow-y: scroll;
 }
 
-header, nav, main, footer {
+pre{
+
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+nav, main, footer {
+    
     padding: 2px calc((100% - 800px) / 2) 0;
 }
 
+nav{
+    padding-top: 0;
+}
+header {
+    padding: 0;
+}
+h1 {
+    height: 100%;
+    margin: 0;
+}
 main {
+    
     margin-top: 54px;
     margin-bottom: 54px;
     min-height: calc(100vh - 345px);
     overflow: auto;
 }
 
+h1 img{
+    height: 100%;
+    width: 130px;
+    padding-bottom: 40px;
+}
+
+
 h1 a {
-    font-size: 36px;
+
+    font-size: 50px;
     font-weight: bold;
-    background-image: url("/static/img/logo.png");
     background-repeat: no-repeat;
     background-position: 0px 0px;
     height: 36px;
-    padding-left: 50px;
     position: relative;
 }
 
@@ -60,8 +87,15 @@ a:hover {
     color: #4EB722;
     text-decoration: underline;
 }
+textarea {
+    resize: none;
+    width: auto;
+    height: auto;
+    min-height: 250px;
+}
 
 textarea, input:not([type="submit"]) {
+    resize: none;
     font-size: 18px;
     font-family: "Ubuntu Mono", monospace;
 }
@@ -71,9 +105,8 @@ header {
     background-image: -moz-linear-gradient(left, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
     background-image: -ms-linear-gradient(left, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
     background-image: linear-gradient(to right, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
-    background-size: 100% 6px;
+    background-size: 100% 0px;
     background-repeat: no-repeat;
-    border-bottom: 1px solid #E4E5E7;
     overflow: auto;
     padding-top: 33px;
     padding-bottom: 27px;
@@ -86,25 +119,29 @@ header a {
 }
 
 nav {
-    border-bottom: 1px solid #E4E5E7;
+    border: none;
+    /* border-bottom: 1px solid #E4E5E7; */
     padding-top: 17px;
     padding-bottom: 15px;
-    background: #F7F9FA;
+    background:linear-gradient(to right, rgb(102, 102, 255), rgb(83, 173, 83));
     height: 60px;
-    color: #6A6C6F;
+    color: #fff;
 }
 
 nav a {
+    color: #fff;
     margin-right: 1.5em;
     display: inline-block;
 }
 
 nav form {
+    color: #fff;
     display: inline-block;
     margin-left: 1.5em;
 }
 
 nav div {
+    color: #fff;
     width: 50%;
     float: left;
 }
@@ -119,6 +156,7 @@ nav div:last-child a {
 }
 
 nav a.live {
+    
     color: #34495E;
     cursor: default;
 }
@@ -311,3 +349,70 @@ footer {
     color: #6A6C6F;
     text-align: center;
 }
+
+
+/* like */
+.btn:focus {
+    outline: none;
+  }
+  
+  .green{
+    color: #62CB31;
+  }
+  
+  .red{
+    color: red;
+  }
+  /* body{
+    margin: 40px;
+  }
+   */
+  button{
+    cursor: pointer;
+    outline: 0;
+    color: #AAA;
+  }
+  
+
+  /* comment */
+
+  .comment-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .comment-container textarea{
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      }
+
+      .comment-container button {
+        display: block;
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #62CB31;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .comment-container button:hover {
+        background-color: #4EB722;
+      }
+      
+      .comment-container #commentList {
+        margin-top: 20px;
+      }
+      
+      .comment-container a{
+        color: #000;
+      }

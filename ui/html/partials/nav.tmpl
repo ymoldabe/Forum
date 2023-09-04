@@ -3,17 +3,19 @@
 <div>
 <a href='/'>Home</a>
 {{if .IsAuthenticated}}
-<a href='/snippet/create'>Create forum</a>
+<a href='/post/create'>Create post</a>
+<a href='/my-likes'>Likes</a>
+<a href='/my-posts'>My posts</a>
 {{end}}
 </div>
 <div>
 {{if .IsAuthenticated}}
-<form action='/user/logout' method='POST'>
+<form action='/logout' method='POST'>
 <button>Logout</button>
 </form>
 {{else}}
-<a href='/user/signup'>Signup</a>
-<a href='/user/login'>Login</a>
+<a href='/auth/sign-up'>Signup</a>
+<a href='/auth/sign-in'>Login</a>
 {{end}}
 </div>
 </nav>
