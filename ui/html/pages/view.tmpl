@@ -1,0 +1,57 @@
+{{define "title"}}
+  Forum #{{.Form.Id}}
+{{end}}
+
+{{define "main"}}
+  <div class='snippet'>
+    <div class='metadata'>
+      <strong>{{.Form.Title}}</strong>
+      <span>#{{.Form.UserName}}</span>
+    </div>
+    <pre><code>{{.Form.Content}}</code></pre>
+    <div class='metadata'>
+      <!-- Use the new template function here -->
+      <time>Created: {{.Form.CreateDate}}</time>
+      <span>Tags: {{range .Form.Tags}}#{{.}}        {{end}}</span>
+    </div>
+  </div>
+  <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+
+  <form method="post" action='/post/reaction?id={{.Form.Id}}'>
+    <div class='metadata'>
+      <span>{{.Form.Likes}}</span>
+      <button class="btn" name="reaction" value="like" id="green"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
+      <span>{{.Form.Dislikes}}</span>
+      <button class="btn" name="reaction" value="dislike" id="red"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
+    </div>
+  </form>
+
+  <form method="post" action='/post/coment-post?id={{.Form.Id}}' >
+    <div class="comment-container">
+      <h2>Leave a Comment</h2>
+      <textarea id="commentInput" name='comment' placeholder="Write your comment here..."></textarea>
+      <button id="submitComment">SUBMIT</button>
+      <div id="commentList"></div>
+    </div>
+  </form>
+  {{range .Form.Comments}}
+  <div class="comment-container">
+    <div class="metadata">
+      <strong>{{.UserName}}</strong>
+     
+    </div>
+    <pre><code>{{.Content}}</code></pre>
+    <div class="metadata">
+      <time>Created: {{.CreateDate}}</time>
+    </div>
+  </div>
+  <form method="post" action='/post/reaction_comment?id={{.PostId}}&comment={{.Id}}'>
+    <div class='metadata'>
+      <span>{{.Likes}}</span>
+      <button class="btn" name="reaction" value="likeComm" id="green"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
+      <span>{{.Dislikes}}</span>
+      <button class="btn" name="reaction" value="dislikeComm" id="red"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
+    </div>
+  </form>
+{{end}}
+{{end}}

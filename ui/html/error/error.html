@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel='stylesheet' href='/static/css/main.css'>
+    <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .error-container {
+            text-align: center;
+            padding: 100px;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #dc3545;
+        }
+        p {
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container error-container">
+        <h1>{{.ErrorCode}}</h1>
+        <p>{{.ErrorMsg}}</p>
+        <form>
+            <button id="show-error-button" class="btn btn-danger"><a href="/">Back to Home Page</a></button>
+        </form>
+    </div>
+
+    <!-- Подключение Bootstrap JS и jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Ошибка: попытка вызвать несуществующую функцию
+        document.getElementById("show-error-button").addEventListener("click", function() {
+            nonExistentFunction();
+        });
+    </script>
+    <script src="/static/js/main.js" type="text/javascript"></script>
+</body>
+</html>

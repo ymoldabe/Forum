@@ -1,0 +1,36 @@
+{{define "title"}}Signup{{end}}
+{{define "main"}}
+<div class="container">
+    <form action='/auth/sign-up' method='POST' novalidate>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            {{with .Form.FieldErrors.name}}
+            <div class='error'>{{.}}</div>
+            {{end}}
+            <input type='text' class="form-control" id="name" name='name' >
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            {{with .Form.FieldErrors.email}}
+            <div class='error'>{{.}}</div>
+            {{end}}
+            <input type='email' class="form-control" id="email" name='email' >
+        </div>
+        <div class="form-group">
+            <label for="password1">Password:</label>
+            {{with .Form.FieldErrors.password}}
+            <div class='error'>{{.}}</div>
+            {{end}}
+            <input type='password' class="form-control" id="password1" name='password1'>
+        </div>
+        <div class="form-group">
+            <label for="password2">Repeat password:</label>
+            {{with .Form.FieldErrors.password}}
+            <div class='error'>{{.}}</div>
+            {{end}}
+            <input type='password' class="form-control" id="password2" name='password2'>
+        </div>
+        <button type='submit' class="btn btn-primary">Signup</button>
+    </form>
+</div>
+{{end}}

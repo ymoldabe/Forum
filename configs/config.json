@@ -1,0 +1,9 @@
+{
+    "port": ":8081",
+    "migrate":"./migrate/create-table.sql",
+    "db":{
+        "dsn" : "./database/storeDB.db",
+        "driver" : "sqlite3"
+    }
+    
+}

@@ -1,0 +1,65 @@
+{{define "title"}}Home{{end}}
+{{define "main"}}
+<style>
+  .spacer {
+    background-color: transparent;
+    height: 20px; /* Высота отступа в пикселях */
+  }
+</style>
+
+<h2>Latest Forums</h2>
+<th>
+<form method='POST'>
+<div>
+<label>Tegs:</label>
+<input type='checkbox' name='tags' value='AskReddit' > AskReddit
+<input type='checkbox' name='tags' value='Funny' > Funny
+<input type='checkbox' name='tags' value='News' > News
+<input type='checkbox' name='tags' value='Gaming' > Gaming
+<input type='checkbox' name='tags' value='Other' checked> Other
+</div>
+<input type='submit' value='Search post by tags'>
+</form>
+</th>
+
+{{if .Form}}
+<table>
+<tr>
+<th>Name</th>
+<th>Title</th>
+<th>Likes</th>
+<th>Dislikes</th>
+</tr>
+{{range .Form}}
+<tr>
+<td>{{.UserName}}</td>
+<td><a href='/post/view?id={{.Id}}'>{{.Title}}</a></td>
+  <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+<td> <form method="post" action='/post/reaction-form-home?id={{.Id}}'>
+    <div class='metadata'>
+      <span>{{.Likes}}</span>
+      <button class="btn" name="reaction" value="like" id="green"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
+    </div>
+  </form></td>
+  <td> <form method="post" action='/post/reaction-form-home?id={{.Id}}'>
+    <div class='metadata'>
+      <span>{{.Dislikes}}</span>
+      <button class="btn" name="reaction" value="dislike" id="red"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
+    </div>
+  </form></td>
+</tr>
+
+<tr>
+<td>Created: {{ .CreateDate}}</td>
+<td colspan="4">
+  Tags: {{range .Tags}}#{{.}}&nbsp;&nbsp;{{end}}
+</td>
+</tr>
+
+<tr class="spacer"></tr> <!-- Прозрачная пустая строка для отступа -->
+{{end}}
+</table>
+{{else}}
+<p>There's nothing to see here... yet!</p>
+{{end}}
+{{end}}
