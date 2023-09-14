@@ -10,6 +10,8 @@ const (
 const (
 	GoogleAuthURL = "https://accounts.google.com/o/oauth2/auth"
 
+	GoogleRedirectUrl = "http://localhost:8081/auth/callback"
+
 // googleTokenURL    = "https://accounts.google.com/o/oauth2/token"
 // googleUserInfoURL = "https://www.googleapis.com/oauth2/v3/userinfo"
 )
