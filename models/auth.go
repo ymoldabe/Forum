@@ -1,6 +1,12 @@
 package models
 
-import "git/ymoldabe/forum/validator"
+import (
+	"time"
+
+	"git/ymoldabe/forum/validator"
+
+	"github.com/google/uuid"
+)
 
 const (
 	ClientID     = "178180018520-gtopcrp8feslt8gbm19e7lmhrls7g9ai.apps.googleusercontent.com"
@@ -31,4 +37,17 @@ type UserSignIn struct {
 	Password     string
 	HashPassword string
 	validator.Validator
+}
+
+type GoogleLoginUserData struct {
+	ID        uuid.UUID
+	Name      string
+	Email     string
+	Password  string
+	Role      string
+	Photo     string
+	Verified  bool
+	Provider  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

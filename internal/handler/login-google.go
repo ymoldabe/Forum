@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"git/ymoldabe/forum/models"
@@ -15,6 +16,11 @@ import (
 
 func (h *Handler) googleLogin(w http.ResponseWriter, r *http.Request) {
 	url := fmt.Sprintf("%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s", models.GoogleAuthURL, models.ClientID, models.GoogleRedirectUrl, "email profile")
+
+	code := r.FormValue("code")
+	fmt.Println("++++++++++++++++++++++++++++++++++++===")
+	fmt.Println(code)
+	fmt.Println("+++++++++++++++++++++++++++++++++++++++")
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
@@ -37,7 +43,35 @@ func (h *Handler) callback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	google_user, err := fmt.Fprint(w, "hello i am work")
+	google_user, err := GetGoogleUser(tokenRes.Access_token, tokenRes.Id_token)
+	if err != nil {
+		h.ClientError(w, http.StatusBadGateway)
+	}
+
+	now := time.Now()
+
+	email := strings.ToLower(google_user.Email)
+
+	user_data := models.GoogleLoginUserData{
+		Name:      google_user.Name,
+		Email:     email,
+		Password:  "",
+		Photo:     google_user.Picture,
+		Provider:  "Google",
+		Role:      "user",
+		Verified:  true,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
+	fmt.Println(user_data)
+
+	/*
+		check from db and add in db and get id
+	*/
+	// id := 1
+
+	// h.NewCookieFile(w, r, id)
+	http.Redirect(w, r, pathUrl, http.StatusTemporaryRedirect)
 }
 
 type GoogleUserResult struct {
