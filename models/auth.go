@@ -2,6 +2,18 @@ package models
 
 import "git/ymoldabe/forum/validator"
 
+const (
+	ClientID     = "178180018520-gtopcrp8feslt8gbm19e7lmhrls7g9ai.apps.googleusercontent.com"
+	ClientSecret = "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"
+)
+
+const (
+	GoogleAuthURL = "https://accounts.google.com/o/oauth2/auth"
+
+// googleTokenURL    = "https://accounts.google.com/o/oauth2/token"
+// googleUserInfoURL = "https://www.googleapis.com/oauth2/v3/userinfo"
+)
+
 type UserSignUp struct {
 	Name         string
 	Email        string

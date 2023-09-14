@@ -29,6 +29,8 @@ func (h *Handler) InitRouters() http.Handler {
 
 	mux.HandleFunc("/auth/sign-up", h.signUp)
 	mux.HandleFunc("/auth/sign-in", h.signIn)
+	mux.HandleFunc("/auth/google/login", h.googleLogin)
+	mux.HandleFunc("/auth/callback", h.collback)
 	mux.Handle("/logout", dynamic.ThenFunc(h.logout))
 
 	// Создаем middleware цепочку для обработки ошибок и логирования.
