@@ -15,12 +15,7 @@ import (
 )
 
 func (h *Handler) googleLogin(w http.ResponseWriter, r *http.Request) {
-	url := fmt.Sprintf("%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s", models.GoogleAuthURL, models.ClientID, models.GoogleRedirectUrl, "email profile")
-
-	code := r.FormValue("code")
-	fmt.Println("++++++++++++++++++++++++++++++++++++===")
-	fmt.Println(code)
-	fmt.Println("+++++++++++++++++++++++++++++++++++++++")
+	url := fmt.Sprintf("%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s&prompt=select_account", models.GoogleAuthURL, models.ClientID, models.GoogleRedirectUrl, "email profile")
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
