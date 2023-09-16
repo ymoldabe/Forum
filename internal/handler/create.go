@@ -3,9 +3,10 @@ package handler
 import (
 	"errors"
 	"fmt"
-	"git/ymoldabe/forum/models"
 	"net/http"
 	"time"
+
+	"git/ymoldabe/forum/models"
 )
 
 const dateFormat = "2006-01-02"
@@ -40,7 +41,7 @@ func (h *Handler) postCreate(w http.ResponseWriter, r *http.Request) {
 			CreateDate: time.Now().Format(dateFormat),
 		}
 
-		id, err := h.service.CreatePost(&form)
+		id, err := h.service.Post.CreatePost(&form)
 		if err != nil {
 			if errors.Is(err, models.ErrFormNotValid) {
 				data := h.NewTemplateData(r)
@@ -97,7 +98,7 @@ func (h *Handler) createPostComment(w http.ResponseWriter, r *http.Request) {
 		Content:    r.FormValue("comment"),
 	}
 
-	err = h.service.CreateComment(&form)
+	err = h.service.Post.CreateComment(&form)
 	if err != nil {
 		h.ServerError(w, err)
 		return

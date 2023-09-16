@@ -2,8 +2,9 @@ package handler
 
 import (
 	"fmt"
-	"git/ymoldabe/forum/models"
 	"net/http"
+
+	"git/ymoldabe/forum/models"
 )
 
 // reactionComment обрабатывает POST-запросы для реакций на комментарии к постам.
@@ -48,7 +49,7 @@ func (h *Handler) reactionComment(w http.ResponseWriter, r *http.Request) {
 	switch reaction {
 	case models.LikeComment, models.DislikeComment:
 		// Вызываем сервис для обработки реакции на комментарий.
-		if err = h.service.ReactionComment(postId, userId, commentId, reaction); err != nil {
+		if err = h.service.Post.ReactionComment(postId, userId, commentId, reaction); err != nil {
 			h.ClientError(w, http.StatusBadRequest)
 			return
 		}
@@ -96,7 +97,7 @@ func (h *Handler) reaction(w http.ResponseWriter, r *http.Request) {
 	switch reaction {
 	case models.LikePost, models.DislikePost:
 		// Вызываем сервис для обработки реакции на пост.
-		if err = h.service.ReactionPost(postId, userId, reaction); err != nil {
+		if err = h.service.Post.ReactionPost(postId, userId, reaction); err != nil {
 			h.ServerError(w, err)
 			return
 		}
@@ -144,14 +145,14 @@ func (h *Handler) reactionFromHome(w http.ResponseWriter, r *http.Request) {
 	switch reaction {
 	case models.LikePost:
 		// Вызываем сервис для обработки лайка поста.
-		if err = h.service.ReactionPost(postId, userId, reaction); err != nil {
+		if err = h.service.Post.ReactionPost(postId, userId, reaction); err != nil {
 			h.ServerError(w, err)
 			return
 		}
 
 	case models.DislikePost:
 		// Вызываем сервис для обработки дизлайка поста.
-		if err = h.service.ReactionPost(postId, userId, reaction); err != nil {
+		if err = h.service.Post.ReactionPost(postId, userId, reaction); err != nil {
 			h.ServerError(w, err)
 			return
 		}

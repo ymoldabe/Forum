@@ -22,12 +22,19 @@ const (
 // googleUserInfoURL = "https://www.googleapis.com/oauth2/v3/userinfo"
 )
 
+const (
+	ProviderGoogle = "google_user"
+	ProviderDefult = "default"
+	ProviderGit    = "github_user"
+)
+
 type UserSignUp struct {
 	Name         string
 	Email        string
 	Password1    string
 	Password2    string
 	HashPassword string
+	Provider     string
 	validator.Validator
 }
 
@@ -36,6 +43,7 @@ type UserSignIn struct {
 	Email        string
 	Password     string
 	HashPassword string
+	Provider     string
 	validator.Validator
 }
 

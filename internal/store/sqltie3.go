@@ -2,9 +2,10 @@ package store
 
 import (
 	"database/sql"
-	"git/ymoldabe/forum/configs"
 	"os"
 	"strings"
+
+	"git/ymoldabe/forum/configs"
 
 	_ "github.com/mattn/go-sqlite3"
 )

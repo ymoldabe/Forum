@@ -1,8 +1,9 @@
-package store
+package store_post
 
 import (
-	"git/ymoldabe/forum/models"
 	"strings"
+
+	"git/ymoldabe/forum/models"
 )
 
 // GetOnePost получает информацию о конкретном посте.

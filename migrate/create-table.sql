@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
     id  INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    hash_password TEXT NOT NULL
+    hash_password TEXT NOT NULL,
+    provider TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS posts (

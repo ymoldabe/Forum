@@ -2,9 +2,10 @@ package handler
 
 import (
 	"errors"
-	"git/ymoldabe/forum/models"
 	"net/http"
 	"strconv"
+
+	"git/ymoldabe/forum/models"
 )
 
 // postView обрабатывает GET-запросы для просмотра поста на форуме.
@@ -31,7 +32,7 @@ func (h *Handler) postView(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Получаем данные поста из сервиса.
-	form, err := h.service.GetPost(id)
+	form, err := h.service.Post.GetPost(id)
 	if err != nil {
 		// Обрабатываем различные ошибки, которые могут возникнуть при запросе данных поста.
 		if errors.Is(err, models.ErrNoRecord) || errors.Is(err, models.ErrNoRowsInResSet) {

@@ -2,11 +2,12 @@ package handler
 
 import (
 	"errors"
-	"git/ymoldabe/forum/models"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"git/ymoldabe/forum/models"
 )
 
 // TemplateData представляет структуру данных для шаблона.
@@ -32,7 +33,7 @@ func (h *Handler) isAuthenticated(r *http.Request) bool {
 	}
 	cookieToken := isAuthenticated.Value
 
-	ok, err := h.service.GetTokenSession(cookieToken)
+	ok, err := h.service.Authorization.GetTokenSession(cookieToken)
 	if err != nil {
 		log.Println(err)
 		return false
@@ -82,9 +83,9 @@ func (h *Handler) CheckValidIdOrCommentId(r *http.Request, isComment bool) (int,
 	var lastErr error
 
 	if isComment {
-		lastId, lastErr = h.service.CheckLastComment()
+		lastId, lastErr = h.service.Post.CheckLastComment()
 	} else {
-		lastId, lastErr = h.service.CheckLastPost()
+		lastId, lastErr = h.service.Post.CheckLastPost()
 	}
 
 	if lastErr != nil {

@@ -2,10 +2,11 @@ package handler
 
 import (
 	"errors"
-	"git/ymoldabe/forum/models"
 	"log"
 	"net/http"
 	"time"
+
+	"git/ymoldabe/forum/models"
 
 	"github.com/google/uuid"
 )
@@ -17,7 +18,7 @@ func (h *Handler) NewCookieFile(w http.ResponseWriter, r *http.Request, UserId i
 	expiresAt := time.Now().Add(1 * time.Hour)
 
 	// Проверяем, есть ли у пользователя уже существующая сессия.
-	ok, err := h.service.CheckSessions(UserId)
+	ok, err := h.service.Authorization.CheckSessions(UserId)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			// Ничего не делаем, так как это означает, что у пользователя еще нет сессии.
@@ -34,14 +35,14 @@ func (h *Handler) NewCookieFile(w http.ResponseWriter, r *http.Request, UserId i
 			Expires: time.Now(),
 		})
 		// Обновляем токен в базе данных.
-		if err := h.service.UpdateToken(sessionToken, UserId); err != nil {
+		if err := h.service.Authorization.UpdateToken(sessionToken, UserId); err != nil {
 			h.ServerError(w, err)
 			return
 		}
 	}
 
 	// Добавляем новую сессию пользователя в базу данных.
-	if err := h.service.UserSessionsAdd(UserId, sessionToken, expiresAt); err != nil {
+	if err := h.service.Authorization.UserSessionsAdd(UserId, sessionToken, expiresAt); err != nil {
 		h.ServerError(w, err)
 		return
 	}
@@ -66,7 +67,7 @@ func (h *Handler) CloseCookieFile(w http.ResponseWriter, r *http.Request) error 
 	sessionToken := c.Value
 
 	// Удаляем токен сессии из базы данных.
-	if err := h.service.DeleteToken(sessionToken); err != nil {
+	if err := h.service.Authorization.DeleteToken(sessionToken); err != nil {
 		log.Println(err)
 		return err
 	}
@@ -89,5 +90,5 @@ func (h *Handler) GetUserAuth(r *http.Request) (int, error) {
 		return 0, err
 	}
 	sessionToken := c.Value
-	return h.service.GetIdInSessions(sessionToken)
+	return h.service.Authorization.GetIdInSessions(sessionToken)
 }

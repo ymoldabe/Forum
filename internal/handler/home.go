@@ -16,7 +16,7 @@ func (h *Handler) home(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()
 
 	// Получаем список постов от сервиса.
-	form, err := h.service.GetPosts()
+	form, err := h.service.Post.GetPosts()
 	if err != nil {
 		h.ServerError(w, err)
 		return
@@ -74,7 +74,7 @@ func (h *Handler) MyPosts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Получаем форму постов, созданных пользователем.
-	form, err := h.service.GetMyCreatedPost(user_id)
+	form, err := h.service.Post.GetMyCreatedPost(user_id)
 	if err != nil {
 		h.ServerError(w, err)
 		return
@@ -126,7 +126,7 @@ func (h *Handler) MyLikes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Получаем форму постов, которые пользователь лайкнул.
-	form, err := h.service.GetMyLikesPost(user_id)
+	form, err := h.service.Post.GetMyLikesPost(user_id)
 	if err != nil {
 		h.ServerError(w, err)
 		return

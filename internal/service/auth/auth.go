@@ -1,10 +1,10 @@
-package service
+package auth
 
 import (
 	"errors"
 	"time"
 
-	"git/ymoldabe/forum/internal/store"
+	store_auth "git/ymoldabe/forum/internal/store/auth"
 	"git/ymoldabe/forum/models"
 	"git/ymoldabe/forum/pkg"
 	"git/ymoldabe/forum/validator"
@@ -12,18 +12,18 @@ import (
 
 // AuthService представляет службу для обработки операций аутентификации и управления пользователями.
 type AuthService struct {
-	store store.Autorization
+	store store_auth.Authorization
 }
 
 // NewAuthService создает новый экземпляр AuthService с указанным хранилищем (store).
-func NewAuthService(store store.Autorization) *AuthService {
+func New(store store_auth.Authorization) *AuthService {
 	return &AuthService{
 		store: store,
 	}
 }
 
 // InsertUser вставляет нового пользователя в базу данных.
-func (s *AuthService) InsertUser(form *models.UserSignUp) error {
+func (a *AuthService) InsertUser(form *models.UserSignUp) error {
 	// Проверки на валидность полей формы регистрации.
 	form.CheckField(validator.NotBlank(form.Name), "name", "This field cannot be blank")
 	form.CheckField(validator.NotBlank(form.Email), "email", "This field cannot be blank")
@@ -45,7 +45,9 @@ func (s *AuthService) InsertUser(form *models.UserSignUp) error {
 
 	form.HashPassword = hash
 
-	err = s.store.InsertUser(form)
+	form.Provider = models.ProviderDefult
+
+	err = a.store.InsertUser(form)
 	if err != nil {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			form.AddFieldError("email", "Email address is already in use")
@@ -59,7 +61,7 @@ func (s *AuthService) InsertUser(form *models.UserSignUp) error {
 }
 
 // Authenticate аутентифицирует пользователя.
-func (s *AuthService) Authenticate(form *models.UserSignIn) (int, error) {
+func (a *AuthService) Authenticate(form *models.UserSignIn) (int, error) {
 	// Проверки на валидность полей формы входа.
 	form.CheckField(validator.NotBlank(form.Email), "email", "This field cannot be blank")
 	form.CheckField(validator.Matches(form.Email, validator.EmailRX), "email", "This fiel must be a valid email address")
@@ -70,13 +72,19 @@ func (s *AuthService) Authenticate(form *models.UserSignIn) (int, error) {
 	}
 
 	// Попытка аутентификации пользователя и возврат его идентификатора.
-	id, err := s.store.Authenticate(form)
+	id, err := a.store.Authenticate(form)
 	if err != nil {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			form.AddFieldError("email", "Email address is already in use")
 			return 0, models.ErrDuplicateEmail
 		} else if errors.Is(err, models.ErrInvalidCredentials) {
 			form.AddNonFieldError("Email or password is incorrectfd")
+			return 0, models.ErrInvalidCredentials
+		} else if errors.Is(err, models.ErrProviderGoogle) {
+			form.AddNonFieldError("Please log in via Google")
+			return 0, models.ErrInvalidCredentials
+		} else if errors.Is(err, models.ErrProviderGithub) {
+			form.AddNonFieldError("Please log in via Github")
 			return 0, models.ErrInvalidCredentials
 		} else {
 			return 0, err
@@ -87,31 +95,31 @@ func (s *AuthService) Authenticate(form *models.UserSignIn) (int, error) {
 }
 
 // UserSessionsAdd добавляет сессию пользователя в базу данных.
-func (s *AuthService) UserSessionsAdd(userId int, sessionToken string, expiresAt time.Time) error {
-	return s.store.UserSessionsAdd(userId, sessionToken, expiresAt)
+func (a *AuthService) UserSessionsAdd(userId int, sessionToken string, expiresAt time.Time) error {
+	return a.store.UserSessionsAdd(userId, sessionToken, expiresAt)
 }
 
 // DeleteToken удаляет токен сессии пользователя.
-func (s *AuthService) DeleteToken(sessionToken string) error {
-	return s.store.DeleteToken(sessionToken)
+func (a *AuthService) DeleteToken(sessionToken string) error {
+	return a.store.DeleteToken(sessionToken)
 }
 
 // GetIdInSessions получает идентификатор пользователя по токену сессии.
-func (s *AuthService) GetIdInSessions(sessionToken string) (int, error) {
-	return s.store.GetIdInSessions(sessionToken)
+func (a *AuthService) GetIdInSessions(sessionToken string) (int, error) {
+	return a.store.GetIdInSessions(sessionToken)
 }
 
 // CheckSessions проверяет наличие сессии у пользователя.
-func (s *AuthService) CheckSessions(userId int) (bool, error) {
-	return s.store.CheckSessions(userId)
+func (a *AuthService) CheckSessions(userId int) (bool, error) {
+	return a.store.CheckSessions(userId)
 }
 
 // UpdateToken обновляет токен сессии пользователя.
-func (s *AuthService) UpdateToken(sessionToken string, user_id int) error {
-	return s.store.UpdateToken(sessionToken, user_id)
+func (a *AuthService) UpdateToken(sessionToken string, user_id int) error {
+	return a.store.UpdateToken(sessionToken, user_id)
 }
 
 // GetTokenSession проверяет наличие токена сессии.
-func (s *AuthService) GetTokenSession(cookieToken string) (bool, error) {
-	return s.store.GetTokenSession(cookieToken)
+func (a *AuthService) GetTokenSession(cookieToken string) (bool, error) {
+	return a.store.GetTokenSession(cookieToken)
 }

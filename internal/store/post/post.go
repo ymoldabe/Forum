@@ -1,11 +1,25 @@
-package store
+package store_post
 
 import (
 	"database/sql"
 	"errors"
-	"git/ymoldabe/forum/models"
 	"log"
+
+	"git/ymoldabe/forum/models"
 )
+
+type Post interface {
+	CreatePost(form *models.DataTransfer) (int, error)
+	CreateComment(form *models.CommentInPost) error
+	GetPost(id int) (models.GetOnePost, error)
+	GetPosts() ([]models.GetAllPosts, error)
+	GetMyCreatedPost(userId int) ([]models.GetAllPosts, error)
+	GetMyLikesPost(userId int) ([]models.GetAllPosts, error)
+	ReactionPost(postId, userId int, reactionType string) error
+	ReactionComment(postId, userId, commetId int, reactionType string) error
+	CheckLastPost() (int, error)
+	CheckLastComment() (int, error)
+}
 
 // PostStore представляет хранилище для операций с постами и комментариями.
 type PostStore struct {
@@ -13,7 +27,7 @@ type PostStore struct {
 }
 
 // NewPostSqlite создает новый экземпляр PostStore, используя переданную базу данных.
-func NewPostSqlite(db *sql.DB) *PostStore {
+func New(db *sql.DB) *PostStore {
 	return &PostStore{
 		db: db,
 	}
