@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"sync"
+
 	"git/ymoldabe/forum/internal/service"
 	"git/ymoldabe/forum/models"
-	"sync"
 )
 
 // userUrlBefore хранит предыдущие URL для каждого пользователя.
@@ -26,6 +27,9 @@ func New(service *service.Service) *Handler {
 
 // getTags выполняет поиск постов, содержащих заданные теги, в переданных данных.
 func getTags(tags []string, form []models.GetAllPosts) []models.GetAllPosts {
+	if len(tags) == 0 || len(tags) == 5 {
+		return form
+	}
 	foundData := []models.GetAllPosts{}
 
 	searchMap := make(map[string]bool)

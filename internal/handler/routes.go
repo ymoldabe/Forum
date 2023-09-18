@@ -24,11 +24,15 @@ func (h *Handler) InitRouters() http.Handler {
 	mux.Handle("/post/coment-post", dynamic.ThenFunc(h.createPostComment))
 
 	mux.Handle("/post/reaction", dynamic.ThenFunc(h.reaction))
-	mux.Handle("/post/reaction-form-home", dynamic.ThenFunc(h.reactionFromHome))
-	mux.Handle("/post/reaction_comment", dynamic.ThenFunc(h.reactionComment))
+	mux.Handle("/post/reaction-comment", dynamic.ThenFunc(h.reactionComment))
 
 	mux.HandleFunc("/auth/sign-up", h.signUp)
 	mux.HandleFunc("/auth/sign-in", h.signIn)
+	mux.HandleFunc("/auth/google/login", h.googleLogin)
+	mux.HandleFunc("/auth/google/callback", h.googleCallback)
+	mux.HandleFunc("/auth/github/login", h.githubLogin)
+	mux.HandleFunc("/auth/github/callback", h.githubCallback)
+
 	mux.Handle("/logout", dynamic.ThenFunc(h.logout))
 
 	// Создаем middleware цепочку для обработки ошибок и логирования.

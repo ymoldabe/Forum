@@ -2,8 +2,9 @@ package handler
 
 import (
 	"errors"
-	"git/ymoldabe/forum/models"
 	"net/http"
+
+	"git/ymoldabe/forum/models"
 )
 
 // signUp обрабатывает регистрацию пользователей.
@@ -27,7 +28,7 @@ func (h *Handler) signUp(w http.ResponseWriter, r *http.Request) {
 			Password2: r.PostForm.Get("password2"),
 		}
 
-		err = h.service.InsertUser(&form)
+		err = h.service.Authorization.InsertUser(&form)
 		if err != nil {
 			if errors.Is(err, models.ErrFormNotValid) {
 				data := h.NewTemplateData(r)
@@ -69,7 +70,7 @@ func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
 			Password: r.PostForm.Get("password"),
 		}
 
-		id, err := h.service.Authenticate(&form)
+		id, err := h.service.Authorization.Authenticate(&form)
 		if err != nil {
 			if errors.Is(err, models.ErrFormNotValid) ||
 				errors.Is(err, models.ErrInvalidCredentials) {

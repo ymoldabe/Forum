@@ -9,4 +9,6 @@ var (
 	ErrDuplicateEmail     = errors.New("UNIQUE constraint failed: users.email")
 	ErrNoRowsInResSet     = errors.New("no rows in result set")
 	ErrDeleteFailed       = errors.New("delete failed")
+	ErrProviderGoogle     = errors.New("registered via Google")
+	ErrProviderGithub     = errors.New("registered via Github")
 )

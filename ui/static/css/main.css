@@ -416,3 +416,9 @@ footer {
       .comment-container a{
         color: #000;
       }
+
+      /* --------------------------------------------------------- */
+      /* google auth */
+      .container mt-5{
+        background-color: #000;
+      }

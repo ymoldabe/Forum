@@ -1,18 +1,31 @@
-package service
+package post
 
 import (
-	"git/ymoldabe/forum/internal/store"
+	store_post "git/ymoldabe/forum/internal/store/post"
 	"git/ymoldabe/forum/models"
 	"git/ymoldabe/forum/validator"
 )
 
+type Post interface {
+	CreatePost(form *models.DataTransfer) (int, error)
+	CreateComment(form *models.CommentInPost) error
+	GetPost(id int) (models.GetOnePost, error)
+	GetPosts() ([]models.GetAllPosts, error)
+	GetMyCreatedPost(userId int) ([]models.GetAllPosts, error)
+	GetMyLikesPost(userId int) ([]models.GetAllPosts, error)
+	ReactionPost(postId, userId int, reactionType string) error
+	ReactionComment(postId, userId, commetId int, reactionType string) error
+	CheckLastPost() (int, error)
+	CheckLastComment() (int, error)
+}
+
 // PostService представляет службу для обработки операций с постами и комментариями.
 type PostService struct {
-	store store.Post
+	store store_post.Post
 }
 
 // NewPostService создает новый экземпляр PostService с указанным хранилищем (store).
-func NewPostService(store store.Post) *PostService {
+func New(store store_post.Post) *PostService {
 	return &PostService{store: store}
 }
 
